@@ -72,8 +72,7 @@ class GlyphData:
 
                 name_mapping[glyph_name] = glyph.attrib
                 if glyph_name_alternatives:
-                    alternatives = glyph_name_alternatives.replace(
-                        " ", "").split(",")
+                    alternatives = glyph_name_alternatives.replace(" ", "").split(",")
                     for glyph_name_alternative in alternatives:
                         alt_name_mapping[glyph_name_alternative] = glyph.attrib
                 if glyph_name_production:
@@ -207,8 +206,7 @@ def _construct_category(glyph_name, data):
             base_names = [
                 (n if n.endswith(f"-{s}") else f"{n}-{s}") for n in base_names
             ]
-        base_names_attributes = [_lookup_attributes(
-            name, data) for name in base_names]
+        base_names_attributes = [_lookup_attributes(name, data) for name in base_names]
         first_attribute = base_names_attributes[0]
 
         # If the first part is a Mark, Glyphs 2.6 declares the entire glyph a Mark

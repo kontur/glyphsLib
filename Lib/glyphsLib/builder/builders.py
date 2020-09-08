@@ -118,7 +118,7 @@ class UFOBuilder(_LoggerMixin):
         self.write_skipexportglyphs = write_skipexportglyphs
         if glyphdata != []:
             global GLYPHSDATA_PATHS
-            GLYPHSDATA_PATHS = ["/Users/johannes/Glyphs/Info/GlyphData.xml"]
+            GLYPHSDATA_PATHS = glyphdata
 
         # The set of (SourceDescriptor + UFO)s that will be built,
         # indexed by master ID, the same order as masters in the source GSFont.

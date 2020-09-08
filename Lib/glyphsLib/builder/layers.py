@@ -26,7 +26,6 @@ def to_ufo_layer(self, glyph, layer):
     elif layer.name not in ufo_font.layers:
         ufo_layer = ufo_font.newLayer(layer.name)
     elif layer.name in ufo_font.layers and glyph.name in ufo_font.layers[layer.name]:
-        self.logger.warning("LAYER NAME '%s'" % layer.name)
         self.logger.warning(
             "%s %s: Glyph %s, layer %s: Duplicate glyph layer name",
             ufo_font.info.familyName,
