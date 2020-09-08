@@ -27,6 +27,8 @@ from glyphsLib import classes, util
 from .constants import PUBLIC_PREFIX, FONT_CUSTOM_PARAM_PREFIX, GLYPHLIB_PREFIX
 from .axes import WEIGHT_AXIS_DEF, WIDTH_AXIS_DEF, find_base_style, class_to_value
 
+GLYPHSDATA_PATHS = []
+
 GLYPH_ORDER_KEY = PUBLIC_PREFIX + "glyphOrder"
 
 BRACKET_LAYER_RE = re.compile(r".*(?P<first_bracket>[\[\]])\s*(?P<value>\d+)\s*\].*")
@@ -68,6 +70,7 @@ class UFOBuilder(_LoggerMixin):
         generate_GDEF=True,
         store_editor_state=True,
         write_skipexportglyphs=False,
+        glyphdata=[]
     ):
         """Create a builder that goes from Glyphs to UFO + designspace.
 
@@ -113,6 +116,9 @@ class UFOBuilder(_LoggerMixin):
         self.store_editor_state = store_editor_state
         self.bracket_layers = []
         self.write_skipexportglyphs = write_skipexportglyphs
+        if glyphdata != []:
+            global GLYPHSDATA_PATHS
+            GLYPHSDATA_PATHS = ["/Users/johannes/Glyphs/Info/GlyphData.xml"]
 
         # The set of (SourceDescriptor + UFO)s that will be built,
         # indexed by master ID, the same order as masters in the source GSFont.

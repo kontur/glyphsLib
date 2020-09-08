@@ -85,6 +85,7 @@ def build_masters(
     store_editor_state=True,
     write_skipexportglyphs=False,
     ufo_module=None,
+    glyphdata=[]
 ):
     """Write and return UFOs from the masters and the designspace defined in a
     .glyphs file.
@@ -121,6 +122,7 @@ def build_masters(
         store_editor_state=store_editor_state,
         write_skipexportglyphs=write_skipexportglyphs,
         ufo_module=ufo_module,
+        glyphdata=glyphdata
     )
 
     # Only write full masters to disk. This assumes that layer sources are always part

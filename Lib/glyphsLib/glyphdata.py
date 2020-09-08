@@ -63,7 +63,6 @@ class GlyphData:
         name_mapping = {}
         alt_name_mapping = {}
         production_name_mapping = {}
-
         for glyphdata_file in glyphdata_files:
             glyph_data = xml.etree.ElementTree.parse(glyphdata_file).getroot()
             for glyph in glyph_data:
@@ -73,7 +72,8 @@ class GlyphData:
 
                 name_mapping[glyph_name] = glyph.attrib
                 if glyph_name_alternatives:
-                    alternatives = glyph_name_alternatives.replace(" ", "").split(",")
+                    alternatives = glyph_name_alternatives.replace(
+                        " ", "").split(",")
                     for glyph_name_alternative in alternatives:
                         alt_name_mapping[glyph_name_alternative] = glyph.attrib
                 if glyph_name_production:
@@ -100,10 +100,24 @@ def get_glyph(glyph_name, data=None):
                 # use backport for python < 3.7
                 from importlib_resources import open_binary
 
-            GLYPHDATA = GlyphData.from_files(
-                open_binary("glyphsLib.data", "GlyphData.xml"),
-                open_binary("glyphsLib.data", "GlyphData_Ideographs.xml"),
-            )
+            from .builder.builders import GLYPHSDATA_PATHS
+
+            if GLYPHSDATA_PATHS == []:
+                GLYPHDATA = GlyphData.from_files(
+                    open_binary("glyphsLib.data", "GlyphData.xml"),
+                    open_binary("glyphsLib.data", "GlyphData_Ideographs.xml")
+                )
+            else:
+                try:
+                    import io
+                    import os
+                    files = [io.FileIO(f, "rb") for f in GLYPHSDATA_PATHS
+                             if os.path.isfile(f)]
+                    GLYPHDATA = GlyphData.from_files(*files)
+
+                except Exception as e:
+                    print(e)
+
         data = GLYPHDATA
 
     # Look up data by full glyph name first.
@@ -193,7 +207,8 @@ def _construct_category(glyph_name, data):
             base_names = [
                 (n if n.endswith(f"-{s}") else f"{n}-{s}") for n in base_names
             ]
-        base_names_attributes = [_lookup_attributes(name, data) for name in base_names]
+        base_names_attributes = [_lookup_attributes(
+            name, data) for name in base_names]
         first_attribute = base_names_attributes[0]
 
         # If the first part is a Mark, Glyphs 2.6 declares the entire glyph a Mark
